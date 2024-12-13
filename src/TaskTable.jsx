@@ -7,13 +7,13 @@ const AddTaskForm = ({ addTask }) => {
   const [newTask, setNewTask] = useState({
     title: "",
     description: "",
-    status: "To Do",
+    status: "",
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     addTask(newTask);
-    setNewTask({ title: "", description: "", status: "To Do" });
+    setNewTask({ title: "", description: "", status: "" });
   };
 
   return (
@@ -30,13 +30,17 @@ const AddTaskForm = ({ addTask }) => {
         type="text"
         placeholder="Description"
         value={newTask.description}
-        onChange={(e) => setNewTask({ ...newTask, description: e.target.value })}
+        onChange={(e) =>
+          setNewTask({ ...newTask, description: e.target.value })
+        }
         required
         style={{ marginRight: "10px" }}
       />
       <select
         value={newTask.status}
-        onChange={(e) => setNewTask({ ...newTask, status: e.target.value })}
+        onChange={(e) =>
+          setNewTask({ ...newTask, status: e.target.value })
+        }
         style={{ marginRight: "10px" }}
       >
         <option value="To Do">To Do</option>
@@ -54,7 +58,9 @@ const TaskTable = () => {
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const response = await fetch("https://jsonplaceholder.typicode.com/todos");
+      const response = await fetch(
+        "https://jsonplaceholder.typicode.com/todos"
+      );
       const data = await response.json();
       const processedData = data.slice(0, 20).map((task) => ({
         id: task.id,
@@ -77,6 +83,13 @@ const TaskTable = () => {
     setTasks((prev) => prev.filter((task) => task.id !== taskId));
   };
 
+  const updateTaskStatus = (taskId, newStatus) => {
+    const updatedTasks = tasks.map((task) =>
+      task.id === taskId ? { ...task, status: newStatus } : task
+    );
+    setTasks(updatedTasks);
+  };
+
   const filteredTasks =
     filterStatus === "All"
       ? tasks
@@ -89,8 +102,33 @@ const TaskTable = () => {
     {
       title: "Status",
       field: "status",
-      editor: "select",
-      editorParams: { values: ["To Do", "In Progress", "Done"] },
+      formatter: (cell) => {
+        const task = cell.getRow().getData();
+        return `
+        <div class="task-status">
+          <span class="status-text"></span>
+          <select class="status-dropdown">
+            <option value="To Do" ${task.status === 'To Do' ? 'selected' : ''}>To Do</option>
+            <option value="In Progress" ${task.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+            <option value="Done" ${task.status === 'Done' ? 'selected' : ''}>Done</option>
+          </select>
+        </div>
+      `;
+      },
+      cellEdited: (cell) => {
+        const task = cell.getRow().getData();
+        updateTaskStatus(task.id, cell.getValue());
+      },
+      cellClick: (e, cell) => {
+        const selectElement = e.target.tagName === "SELECT" ? e.target : null;
+        if (selectElement) {
+          selectElement.addEventListener("change", (event) => {
+            const newStatus = event.target.value;
+            const task = cell.getRow().getData();
+            updateTaskStatus(task.id, newStatus);
+          });
+        }
+      },
     },
     {
       title: "Delete",
