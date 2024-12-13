@@ -1,13 +1,137 @@
+/* General Page Styles */
 body {
+  font-family: Arial, sans-serif;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  background-color: #f9f9f9;
+  color: #333;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h1 {
+  text-align: center;
+  margin: 20px 0;
+  color: #444;
+}
+
+/* Form Styles */
+form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 20px auto;
+  padding: 0 10px;
+}
+
+input[type="text"],
+select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 200px;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* Filter Section Styles */
+label {
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+/* Task Status Styles */
+.task-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-text {
+  font-weight: bold;
+  color: #555;
+}
+
+.status-dropdown {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+/* Table Styles */
+.tabulator {
+  margin: 20px auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.tabulator-header {
+  background-color: #f1f1f1;
+  font-weight: bold;
+  color: #444;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabulator-row {
+  border-bottom: 1px solid #eee;
+}
+
+.tabulator-row:hover {
+  background-color: #f9f9f9;
+}
+
+.tabulator-cell {
+  padding: 10px;
+  font-size: 14px;
+}
+
+.tabulator-cell button {
+  padding: 5px 10px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.tabulator-cell button:hover {
+  background-color: #a71d2a;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  input[type="text"],
+  select {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .tabulator {
+    margin: 10px;
+  }
 }
